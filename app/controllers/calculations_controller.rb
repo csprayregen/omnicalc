@@ -10,14 +10,36 @@ class CalculationsController < ApplicationController
     # The special word the user input is in the string @special_word.
     # ================================================================================
 
+    text_split_into_array = @text.split
+    # transformed from string to array
 
-    @word_count = "Replace this string with your answer."
+    @word_count = text_split_into_array.size
+    #counting elements in array
 
-    @character_count_with_spaces = "Replace this string with your answer."
+    @character_count_with_spaces = @text.size
 
-    @character_count_without_spaces = "Replace this string with your answer."
+    #remove spaces from @text
+    @text_without_spaces = @text.gsub(" ", "")
 
-    @occurrences = "Replace this string with your answer."
+    #tell me the size of the new string without spaces
+    @character_count_without_spaces = @text_without_spaces.size
+
+    #they've given me @special_word. I need to find it and then count it.
+    #based on hint, looks like we want to use the array count function
+    #we want to do this after having split the string into an array
+
+    #first make downcase
+    text_downcase = @text.downcase
+
+    #then take out punctuation
+    text_downcase_no_punctuation = text_downcase.gsub(/[^a-z0-9\s]/i, "")
+
+    #remove punctuation: @text.gsub(/[^a-z0-9\s]/i, "")
+
+    downcase_text_split_into_array = text_downcase_no_punctuation.split
+    # transformed from string to array
+
+    @occurrences = downcase_text_split_into_array.count(@special_word)
 
     # ================================================================================
     # Your code goes above.
@@ -38,7 +60,19 @@ class CalculationsController < ApplicationController
     # The principal value the user input is in the decimal @principal.
     # ================================================================================
 
-    @monthly_payment = "Replace this string with your answer."
+    #c = P * r / (1-(1+r)^-N)
+    #r = monthly interest rate expressed as a decimal, not a percentage. this should just be the apr/12
+    #N = # of monthly payments. This should just be @years*12
+    #p = principal - I don't think we need to change this
+    #3**2 is the exponent, not 3^2
+
+    #come back to this
+
+    r = @apr/12
+    n = @years*12
+    pr = @principal
+
+    @monthly_payment = pr * r / (1-(1+r)**-n)
 
     # ================================================================================
     # Your code goes above.
@@ -60,54 +94,66 @@ class CalculationsController < ApplicationController
     #   number of seconds as a result.
     # ================================================================================
 
-    @seconds = "Replace this string with your answer."
-    @minutes = "Replace this string with your answer."
-    @hours = "Replace this string with your answer."
-    @days = "Replace this string with your answer."
-    @weeks = "Replace this string with your answer."
-    @years = "Replace this string with your answer."
+    #I think we need to use something like time.parse here
 
-    # ================================================================================
-    # Your code goes above.
-    # ================================================================================
+    #first find the full time difference
+    #then determine what unit we want it in
+    #make sure it's positive no matter what
 
-    render("time_between.html.erb")
+    if @starting > @ending
+      @seconds = @starting - @ending
+    else @seconds = @ending - @starting
+    end
+
+#seconds worked, but I need to figure out the rest of it 
+
+      @minutes = @seconds*60
+      @hours = @seconds*3600
+      @days = "Replace this string with your answer."
+      @weeks = "Replace this string with your answer."
+      @years = "Replace this string with your answer."
+
+      # ================================================================================
+      # Your code goes above.
+      # ================================================================================
+
+      render("time_between.html.erb")
+    end
+
+    def descriptive_statistics
+      @numbers = params[:list_of_numbers].gsub(',', '').split.map(&:to_f)
+
+      # ================================================================================
+      # Your code goes below.
+      # The numbers the user input are in the array @numbers.
+      # ================================================================================
+
+      @sorted_numbers = "Replace this string with your answer."
+
+      @count = "Replace this string with your answer."
+
+      @minimum = "Replace this string with your answer."
+
+      @maximum = "Replace this string with your answer."
+
+      @range = "Replace this string with your answer."
+
+      @median = "Replace this string with your answer."
+
+      @sum = "Replace this string with your answer."
+
+      @mean = "Replace this string with your answer."
+
+      @variance = "Replace this string with your answer."
+
+      @standard_deviation = "Replace this string with your answer."
+
+      @mode = "Replace this string with your answer."
+
+      # ================================================================================
+      # Your code goes above.
+      # ================================================================================
+
+      render("descriptive_statistics.html.erb")
+    end
   end
-
-  def descriptive_statistics
-    @numbers = params[:list_of_numbers].gsub(',', '').split.map(&:to_f)
-
-    # ================================================================================
-    # Your code goes below.
-    # The numbers the user input are in the array @numbers.
-    # ================================================================================
-
-    @sorted_numbers = "Replace this string with your answer."
-
-    @count = "Replace this string with your answer."
-
-    @minimum = "Replace this string with your answer."
-
-    @maximum = "Replace this string with your answer."
-
-    @range = "Replace this string with your answer."
-
-    @median = "Replace this string with your answer."
-
-    @sum = "Replace this string with your answer."
-
-    @mean = "Replace this string with your answer."
-
-    @variance = "Replace this string with your answer."
-
-    @standard_deviation = "Replace this string with your answer."
-
-    @mode = "Replace this string with your answer."
-
-    # ================================================================================
-    # Your code goes above.
-    # ================================================================================
-
-    render("descriptive_statistics.html.erb")
-  end
-end
