@@ -105,55 +105,78 @@ class CalculationsController < ApplicationController
     else @seconds = @ending - @starting
     end
 
-#seconds worked, but I need to figure out the rest of it 
+    #seconds worked, but I need to figure out the rest of it
 
-      @minutes = @seconds*60
-      @hours = @seconds*3600
-      @days = "Replace this string with your answer."
-      @weeks = "Replace this string with your answer."
-      @years = "Replace this string with your answer."
+    @minutes = @seconds*60
+    @hours = @seconds*3600
+    @days = "Replace this string with your answer."
+    @weeks = "Replace this string with your answer."
+    @years = "Replace this string with your answer."
 
-      # ================================================================================
-      # Your code goes above.
-      # ================================================================================
+    # ================================================================================
+    # Your code goes above.
+    # ================================================================================
 
-      render("time_between.html.erb")
-    end
-
-    def descriptive_statistics
-      @numbers = params[:list_of_numbers].gsub(',', '').split.map(&:to_f)
-
-      # ================================================================================
-      # Your code goes below.
-      # The numbers the user input are in the array @numbers.
-      # ================================================================================
-
-      @sorted_numbers = "Replace this string with your answer."
-
-      @count = "Replace this string with your answer."
-
-      @minimum = "Replace this string with your answer."
-
-      @maximum = "Replace this string with your answer."
-
-      @range = "Replace this string with your answer."
-
-      @median = "Replace this string with your answer."
-
-      @sum = "Replace this string with your answer."
-
-      @mean = "Replace this string with your answer."
-
-      @variance = "Replace this string with your answer."
-
-      @standard_deviation = "Replace this string with your answer."
-
-      @mode = "Replace this string with your answer."
-
-      # ================================================================================
-      # Your code goes above.
-      # ================================================================================
-
-      render("descriptive_statistics.html.erb")
-    end
+    render("time_between.html.erb")
   end
+
+  def descriptive_statistics
+    @numbers = params[:list_of_numbers].gsub(',', '').split.map(&:to_f)
+
+    # ================================================================================
+    # Your code goes below.
+    # The numbers the user input are in the array @numbers.
+    # ================================================================================
+
+    @sorted_numbers = @numbers.sort
+
+    @count = @numbers.count
+
+    @minimum = @numbers.min
+
+    @maximum = @numbers.max
+
+    @range = @numbers.max - @numbers.min
+
+    #@median = @numbers.median
+
+    #first sort
+    #if @sorted_numbers == odd
+
+    #else
+    #end
+
+
+    @sum = @numbers.sum
+
+    @mean = @numbers.sum / @numbers.count
+
+    #@variance = @numbers.variance
+    #I think this will need to be a loop
+    #for each number in the array
+    #subtract it from the mean, and square that number
+    #put the squared distance into a new array
+    #sum the new array
+
+      squared_numbers = []            # Create an empty array
+
+      @numbers.each do |num|       # For each element in numbers, (refer to it as "num")
+        square = num * num            # Square the number
+        squared_numbers.push(square)  # Push it into the squared_numbers array
+      end
+
+      @variance = squared_numbers.sum  # Sum the squares
+
+
+    #@standard_deviation = @variance
+    #square root of the variance found above
+
+    #@mode = @numbers.mode
+
+    # ================================================================================
+    # Your code goes above.
+    # ================================================================================
+
+    render("descriptive_statistics.html.erb")
+  end
+end
