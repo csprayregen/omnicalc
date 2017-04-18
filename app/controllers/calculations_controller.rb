@@ -72,7 +72,7 @@ class CalculationsController < ApplicationController
     n = @years*12
     pr = @principal
 
-    @monthly_payment = pr * r / (1-(1+r)**-n)
+    @monthly_payment = pr * (r / (1-((1+r)**(-n))))
 
     # ================================================================================
     # Your code goes above.
@@ -107,11 +107,19 @@ class CalculationsController < ApplicationController
 
     #seconds worked, but I need to figure out the rest of it
 
-    @minutes = @seconds*60
-    @hours = @seconds*3600
-    @days = "Replace this string with your answer."
-    @weeks = "Replace this string with your answer."
-    @years = "Replace this string with your answer."
+    if @starting > @ending
+      seconds = @starting - @ending
+    else seconds = @ending - @starting
+    end
+    @minutes = seconds/60
+
+    @hours = @seconds/3600
+
+    @days = @seconds/86400
+
+    @weeks = @seconds/604800
+
+    @years = @seconds/(31536000)
 
     # ================================================================================
     # Your code goes above.
@@ -138,14 +146,18 @@ class CalculationsController < ApplicationController
 
     @range = @numbers.max - @numbers.min
 
-    #@median = @numbers.median
-
     #first sort
-    #if @sorted_numbers == odd
+    sorted = @numbers.sort
 
-    #else
-    #end
-
+    #if the array is an odd length
+    if sorted.length % 2 != 0
+      #the median is the slot in the array that is one more than the total number of slots, divided by 2
+      @median = sorted[(sorted.length+1)/2]
+      #if the array is an even length
+    else @median =
+      #add up the two middle numbers and divide that sum by 2 to find the median
+      (sorted[(sorted.length-1)/2] + sorted[(sorted.length+1)/2])/2
+    end
 
     @sum = @numbers.sum
 
@@ -158,20 +170,27 @@ class CalculationsController < ApplicationController
     #put the squared distance into a new array
     #sum the new array
 
-      squared_numbers = []            # Create an empty array
+    squared_difference_array = []            # Create an empty array
 
-      @numbers.each do |num|       # For each element in numbers, (refer to it as "num")
-        square = num * num            # Square the number
-        squared_numbers.push(square)  # Push it into the squared_numbers array
-      end
+    @numbers.each do |num|       # For each element in numbers, (refer to it as "num")
+      squared_difference = (num-@mean) * (num-@mean)            # Square the number
+      squared_difference_array.push(squared_difference)  # Push it into the squared_numbers array
+    end
 
-      @variance = squared_numbers.sum  # Sum the squares
+    @variance = (squared_difference_array.sum)/@numbers.count  # Sum the squares
 
 
-    #@standard_deviation = @variance
+    #@standard_deviation = math.sqrt(@variance)
     #square root of the variance found above
 
     #@mode = @numbers.mode
+
+    frequency_array = []            # Create an empty array
+    
+    @numbers.each do |num|       # For each element in numbers, (refer to it as "num")
+      frequency =             # Count how many times that number appears in the array
+      frequency_array.push(frequency)  # Push it into the squared_numbers array
+    end
 
     # ================================================================================
     # Your code goes above.
