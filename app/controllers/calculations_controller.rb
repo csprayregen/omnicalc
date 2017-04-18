@@ -153,12 +153,13 @@ class CalculationsController < ApplicationController
     #if the array is an odd length
     if sorted.length % 2 != 0
       #the median is the slot in the array that is one more than the total number of slots, divided by 2
-      @median = sorted[(sorted.length+1)/2]
+      @median = sorted[((sorted.length+1)/2)-1]
       #if the array is an even length
-    else @median =
+    else @median =  (sorted[(sorted.length/2)-1] + sorted[sorted.length/2])/2
       #add up the two middle numbers and divide that sum by 2 to find the median
-      (sorted[(sorted.length-1)/2] + sorted[(sorted.length+1)/2])/2
     end
+
+    #for even lengthed arrays, we need 1) the length divided by 2, plus 1 (because it starts at 0); 2) the length plus 2, divided by 2, then plus one (because it starts at 0)
 
     @sum = @numbers.sum
 
