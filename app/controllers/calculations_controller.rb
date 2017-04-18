@@ -182,17 +182,39 @@ class CalculationsController < ApplicationController
     @variance = (squared_difference_array.sum)/@numbers.count  # Sum the squares
 
 
-    #@standard_deviation = math.sqrt(@variance)
+    @standard_deviation = @variance**(0.5)
+
     #square root of the variance found above
 
     #@mode = @numbers.mode
 
-    frequency_array = []            # Create an empty array
+    #frequency_array = [
+    #@numbers, [] #does numbers need to be in brackets?
+    #]
+    # Create an array of arrays
 
+    #@numbers.each do |num|       # For each element in numbers, (refer to it as "num")
+    #frequency = @numbers.count(num)   # Count how many times that number appears in the array
+    #frequency_array.push(frequency)  # Push it into the frequency array - but how do I specify where in the array?
+    #end
+
+    #find the maximum number in the frequency row/column of the frequency array
+    #produce the row/column of @numbers that corresponds to that maximum
+
+    frequency_array = []
     @numbers.each do |num|       # For each element in numbers, (refer to it as "num")
-      frequency =             # Count how many times that number appears in the array
-      frequency_array.push(frequency)  # Push it into the squared_numbers array
+      frequency = @numbers.count(num)   # Count how many times that number appears in the array
+      frequency_array.push(frequency)  # Push it into the frequency array
     end
+
+    #find the maximum number in the frequency array
+    max = frequency_array.max
+
+    #find what position it is in
+    position = frequency_array.index(max)
+
+    #produce the number from @numbers that corresponds to that maximum
+    @mode=@numbers[position]
 
     # ================================================================================
     # Your code goes above.
