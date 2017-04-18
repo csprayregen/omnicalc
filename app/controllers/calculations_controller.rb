@@ -72,7 +72,8 @@ class CalculationsController < ApplicationController
     n = @years*12
     pr = @principal
 
-    @monthly_payment = pr * (r / (1-((1+r)**(-n))))
+    #@monthly_payment = pr * (r / (1-((1+r)**(-n))))
+    @monthly_payment = ((((@apr/100)/12) * @principal) / (1 - (1 + ((@apr/100)/12)) ** ( -(@years * 12))))
 
     # ================================================================================
     # Your code goes above.
@@ -186,7 +187,7 @@ class CalculationsController < ApplicationController
     #@mode = @numbers.mode
 
     frequency_array = []            # Create an empty array
-    
+
     @numbers.each do |num|       # For each element in numbers, (refer to it as "num")
       frequency =             # Count how many times that number appears in the array
       frequency_array.push(frequency)  # Push it into the squared_numbers array
